@@ -37,9 +37,10 @@ set(EXAMPLES
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
+find_package(Boost REQUIRED)
 find_package(Bluez REQUIRED)
 
-include_directories(${PROJECT_SOURCE_DIR} ${BLUEZ_INCLUDE_DIRS})
+include_directories(${PROJECT_SOURCE_DIR} ${BLUEZ_INCLUDE_DIRS} ${Boost_INCLUDE_DIR})
 add_library(${PROJECT_NAME} SHARED ${SRC})
 set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION 5)
 
@@ -47,7 +48,7 @@ foreach (example_src ${EXAMPLES})
     get_filename_component(example_name ${example_src} NAME_WE)
 
     add_executable(${example_name} ${example_src})
-    target_link_libraries(${example_name} ${PROJECT_NAME} ${BLUEZ_LIBRARIES})
+    target_link_libraries(${example_name} ${PROJECT_NAME} ${BLUEZ_LIBRARIES} ${Boost_LIBRARIES})
     set_target_properties(${example_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY examples)
 endforeach()
 
